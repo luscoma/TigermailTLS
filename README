@@ -1,0 +1,11 @@
+Code used for Tigermail SSL/TLS Interception Attack
+Dr. Wu Senior Design - 5/11/2010
+-----------------------------------------------------
+
+This attack demonstrates a vulnerability in SSL/TLS where a 302 redirect can be used to tear down the TLS tunnel without knowledge of the user.  The user can then be redirected to a proxy which seems encrypted but in actualilty is not.  More information and references can be found in tls-renegotiate.py.
+
+
+Echoserver.py - Simple echo server used for testing
+tls-renegotiate.py - the underlying nuts and bolts.  Modified to pass renegotiated tunnel to TMS Spoofer
+tmsspoof.py - The Tigermail magic, this module intercepts the TLS tunnel, seperately logins to Groupwise TigerMail.  Then generates a logout which causes a 302 redirect.  This 302 redirect is passed back to the user causing them their browser to redirect them to an unencrypted tunnel.  Allowing the sniffing of their credentials.
+tms_intercept.py - similar in method to SSLstrip, this hosts a proxy for the user once the TLS/SSL tunnel has been torndown.  This module proxies all of the HTTP requests to/from tigermail on behalf of the user so that credentials and e-mails can be sniffed
